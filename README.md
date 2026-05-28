@@ -1,1 +1,1 @@
-# hearbal-apothecary-garden
+# herbal-apothecary-garden
