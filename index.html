@@ -4,8 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Herbal Apothecary Garden</title>
-<meta http-equiv="refresh" content="0; url=herbal-apothecary/philosophy.html">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+background: #0d0c0a;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+}
+.logo-wrap {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 48px;
+opacity: 0;
+animation: fadeIn 2s ease 0.5s forwards;
+text-decoration: none;
+}
+.logo-wrap img {
+width: min(480px, 80vw);
+}
+.enter {
+font-family: 'Cinzel', serif;
+font-size: 0.6rem;
+font-weight: 300;
+letter-spacing: 0.6em;
+text-transform: uppercase;
+color: rgba(255,255,255,0.3);
+transition: color 0.5s;
+}
+.logo-wrap:hover .enter {
+color: rgba(255,255,255,0.7);
+}
+@keyframes fadeIn {
+from { opacity:0; transform: translateY(12px); }
+to { opacity:1; transform: translateY(0); }
+}
+</style>
 </head>
 <body>
+<a href="herbal-apothecary/philosophy.html" class="logo-wrap">
+<img src="logo.jpg" alt="Herbal Apothecary Garden">
+<span class="enter">Enter</span>
+</a>
 </body>
 </html>
+
