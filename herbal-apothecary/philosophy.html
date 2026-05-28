@@ -53,6 +53,7 @@ nav { position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 64px;display:
 .ch3-title { font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,3rem);font-weight:300;color:var(--ink);line-height:1.25; }
 .ch3-title em { font-style:italic;color:var(--sage); }
 .principles { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(122,140,106,0.1); }
+
 .principle { background:var(--bg);padding:64px 44px;position:relative; }
 .principle::after { content:attr(data-num);position:absolute;bottom:32px;right:36px;font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;color:rgba(122,140,106,0.06);line-height:1;user-select:none; }
 .principle-en { font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;font-weight:300;color:var(--sage);margin-bottom:12px;line-height:1.2; }
@@ -84,7 +85,12 @@ footer { border-top:1px solid rgba(122,140,106,0.15);padding:48px 64px;display:f
 .reveal { opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease; }
 .reveal.on { opacity:1;transform:translateY(0); }
 .reveal-slow { opacity:0;transition:opacity 1.6s ease; }
-.reveal-slow.on { opacity:1; }
+@media (max-width: 768px) {
+.principles { grid-template-columns: 1fr !important; }
+.ch3-header { grid-template-columns: 1fr !important; }
+.ch3-inner { padding: 0 28px !important; }
+.ch3-num { font-size: 5rem !important; }
+}
 </style>
 </head>
 <body>
