@@ -3,9 +3,208 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Herbal Apothecary Garden</title>
-<meta http-equiv="refresh" content="0; url=herbal-apothecary/philosophy.html">
+<title>Philosophy — Herbal Apothecary Garden</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Cinzel:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+--bg: #f4efe6; --bg-dark: #ede5d5; --ink: #1e1b17;
+--ink-mid: #5a5248; --ink-light: #9a9088;
+--sage: #7a8c6a; --sage-pale: #c8d4b8;
+--gold: #b8944a; --bordeaux: #5c2a34; --linen: #faf6ee;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond','Noto Serif JP',serif; overflow-x: hidden; cursor: none; }
+.dot { width:6px;height:6px;background:var(--sage);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%); }
+.ring { width:32px;height:32px;border:1px solid rgba(122,140,106,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease,width 0.3s,height 0.3s; }
+nav { position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 64px;display:flex;align-items:center;justify-content:space-between; }
+.nav-home { font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.3em;color:var(--ink-mid);text-decoration:none;transition:color 0.3s; }
+.nav-home:hover { color:var(--sage); }
+.nav-page { font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.3em;color:var(--ink-light); }
+.opening { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 40px 80px;text-align:center;position:relative; }
+.opening::before { content:'';position:fixed;inset:0;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none; }
+.opening-eyebrow { font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.5em;color:var(--sage);margin-bottom:80px;opacity:0;animation:fadeUp 1.2s ease 0.3s forwards; }
+.opening-headline { font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,10vw,11rem);font-weight:300;line-height:0.95;letter-spacing:-0.02em;color:var(--ink);opacity:0;animation:fadeUp 1.4s ease 0.6s forwards;position:relative;z-index:1; }
+.opening-headline em { font-style:italic;color:var(--sage);display:block; }
+.opening-headline .sub { font-size:0.38em;font-weight:300;letter-spacing:0.06em;color:var(--ink-mid);display:block;margin-top:16px;font-style:normal; }
+.opening-rule { width:1px;height:80px;background:linear-gradient(to bottom,var(--sage),transparent);margin:80px auto 0;opacity:0;animation:fadeIn 1.2s ease 1.4s forwards; }
+.ch1 { padding:160px 0; }
+.ch1-inner { max-width:680px;margin:0 auto;padding:0 40px; }
+.phrase { font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:300;line-height:1.7;color:var(--ink);letter-spacing:0.02em; }
+.phrase em { font-style:italic;color:var(--sage); }
+.phrase-break { display:block;height:56px; }
+.aside-note { margin-top:64px;padding-left:28px;border-left:1px solid var(--sage-pale);font-family:'Noto Serif JP',serif;font-size:0.82rem;font-weight:200;line-height:2.5;color:var(--ink-mid);letter-spacing:0.04em; }
+.ch2 { padding:120px 0 160px;background:var(--ink);position:relative;overflow:hidden; }
+.ch2::before { content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(184,148,74,0.4),transparent); }
+.ch2::after { content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(184,148,74,0.4),transparent); }
+.ch2-bg { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-size:60vw;font-weight:300;font-style:italic;color:rgba(255,255,255,0.02);user-select:none;pointer-events:none;line-height:1; }
+.ch2-inner { max-width:760px;margin:0 auto;padding:0 40px;position:relative;z-index:1; }
+.ch2-label { font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.4em;color:rgba(200,212,184,0.5);margin-bottom:60px;display:flex;align-items:center;gap:20px; }
+.ch2-label::before { content:'';width:40px;height:1px;background:rgba(200,212,184,0.3); }
+.ch2-text { font-family:'Noto Serif JP',serif;font-size:0.9rem;font-weight:200;line-height:3;color:rgba(244,239,230,0.65);letter-spacing:0.06em;margin-bottom:24px; }
+.ch2-pivot { margin:80px 0;font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-style:italic;font-weight:300;line-height:1.6;color:rgba(244,239,230,0.9);padding:0 0 0 32px;border-left:1px solid rgba(200,212,184,0.4); }
+.ch2-pivot em { color:#c8d4b8;font-style:normal; }
+.ch3 { padding:160px 0; }
+.ch3-inner { max-width:1100px;margin:0 auto;padding:0 64px; }
+.ch3-header { margin-bottom:100px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end; }
+.ch3-num { font-family:'Cormorant Garamond',serif;font-size:10rem;font-weight:300;color:rgba(122,140,106,0.08);line-height:1;user-select:none; }
+.ch3-label { font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.4em;color:var(--sage);margin-bottom:20px;display:flex;align-items:center;gap:14px; }
+.ch3-label::before { content:'';width:28px;height:1px;background:var(--sage); }
+.ch3-title { font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,3rem);font-weight:300;color:var(--ink);line-height:1.25; }
+.ch3-title em { font-style:italic;color:var(--sage); }
+.principles { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(122,140,106,0.1); }
+.principle { background:var(--bg);padding:64px 44px;position:relative; }
+.principle::after { content:attr(data-num);position:absolute;bottom:32px;right:36px;font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;color:rgba(122,140,106,0.06);line-height:1;user-select:none; }
+.principle-en { font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;font-weight:300;color:var(--sage);margin-bottom:12px;line-height:1.2; }
+.principle-rule { width:32px;height:1px;background:#c8d4b8;margin:20px 0; }
+.principle-ja { font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:300;color:var(--ink);margin-bottom:20px;line-height:1.5; }
+.principle-desc { font-family:'Noto Serif JP',serif;font-size:0.78rem;font-weight:200;line-height:2.5;color:var(--ink-mid);letter-spacing:0.03em; }
+.ch4 { background:var(--bg-dark);padding:160px 0;position:relative; }
+.ch4-inner { max-width:700px;margin:0 auto;padding:0 40px;text-align:center; }
+.ch4-pre { font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.5em;color:var(--sage);margin-bottom:64px; }
+.manifesto-body { font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:300;line-height:1.9;color:var(--ink);letter-spacing:0.02em; }
+.manifesto-body em { font-style:italic;color:var(--sage); }
+.manifesto-body .pause { display:block;height:48px; }
+.manifesto-body .accent { color:var(--bordeaux); }
+.ch4-close { margin-top:80px;font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.2vw,1.7rem);font-style:italic;font-weight:300;color:var(--ink-mid);line-height:1.7; }
+.ch4-close strong { font-style:normal;font-weight:300;color:var(--ink);display:block;margin-top:16px;font-family:'Cinzel',serif;font-size:0.75em;letter-spacing:0.2em; }
+.ch5 { padding:160px 0 200px; }
+.ch5-inner { max-width:680px;margin:0 auto;padding:0 40px; }
+.ch5-label { font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.4em;color:var(--sage);margin-bottom:48px;display:flex;align-items:center;gap:14px; }
+.ch5-label::before { content:'';width:28px;height:1px;background:var(--sage); }
+.ch5-text { font-family:'Noto Serif JP',serif;font-size:0.88rem;font-weight:200;line-height:3;color:var(--ink-mid);margin-bottom:20px;letter-spacing:0.05em; }
+.ch5-final { margin-top:80px;padding-top:80px;border-top:1px solid rgba(122,140,106,0.2);text-align:center; }
+.ch5-final-en { font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3vw,2.4rem);font-style:italic;font-weight:300;color:var(--ink);line-height:1.5;margin-bottom:24px; }
+.ch5-final-ja { font-family:'Noto Serif JP',serif;font-size:0.78rem;font-weight:200;color:var(--ink-light);letter-spacing:0.2em; }
+footer { border-top:1px solid rgba(122,140,106,0.15);padding:48px 64px;display:flex;align-items:center;justify-content:space-between;background:var(--bg); }
+.footer-mark { font-family:'Cormorant Garamond',serif;font-size:0.88rem;font-weight:300;letter-spacing:0.2em;color:var(--ink-mid); }
+.footer-copy { font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.18em;color:var(--ink-light); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+.reveal { opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease; }
+.reveal.on { opacity:1;transform:translateY(0); }
+.reveal-slow { opacity:0;transition:opacity 1.6s ease; }
+.reveal-slow.on { opacity:1; }
+</style>
 </head>
 <body>
+<div class="dot" id="dot"></div>
+<div class="ring" id="ring"></div>
+<nav>
+<a href="#" class="nav-home">← Herbal Apothecary Garden</a>
+<span class="nav-page">Philosophy</span>
+</nav>
+<section class="opening">
+<p class="opening-eyebrow">Herbal Apothecary Garden · Philosophy</p>
+<h1 class="opening-headline">
+<em>Plants</em>
+remember.
+<span class="sub">植物は、身体の小さな声を覚えている。</span>
+</h1>
+<div class="opening-rule"></div>
+</section>
+<section class="ch1">
+<div class="ch1-inner">
+<div class="phrase reveal">
+病院へ行くほどではない不調。<br>言葉にならない違和感。<br>動物たちが、隠してしまう痛み。
+<span class="phrase-break"></span>
+植物は、その微細な変化に<br>静かに、しかし確かに<em>寄り添う</em>。
+</div>
+<div class="aside-note reveal">
+Herbal Apothecary Garden は、<br>人と動物が本来持つ回復力を、<br>植物の力で支えるための場所です。<br><br>
+ここは情報を売る場所ではない。<br>植物と暮らす思想の空間です。
+</div>
+</div>
+</section>
+<section class="ch2">
+<div class="ch2-bg">G</div>
+<div class="ch2-inner">
+<p class="ch2-label reveal-slow">Origin · はじまりの朝</p>
+<p class="ch2-text reveal">私がハーブを学び始めたのは、<br>愛犬が庭で一種の植物だけを選んで食べた、<br>ある朝のことだった。</p>
+<p class="ch2-text reveal">なぜ、その一種だったのか。<br><br>調べると、彼女が抱えていた不調に<br>ぴったりと対応する薬効を持つ植物だった。</p>
+<div class="ch2-pivot reveal">
+動物は、自分の身体を知っている。<br>植物も、<em>その身体を知っている</em>。<br><br>
+私たちが学ぶべきは、<br>その対話の言葉なのだと。
+</div>
+<p class="ch2-text reveal">それから10年以上、<br>栽培・収穫・薬学・加工法を学び続けた。<br><br>中世ヨーロッパから南仏へと受け継がれてきた<br>ハーブの叡智を、現代の生活に寄り添う形で。</p>
+</div>
+</section>
+<section class="ch3">
+<div class="ch3-inner">
+<div class="ch3-header">
+<div class="ch3-num reveal-slow">03</div>
+<div class="reveal">
+<p class="ch3-label">Three Principles</p>
+<h2 class="ch3-title">私を貫く、<br><em>三つの哲学</em></h2>
+</div>
+</div>
+<div class="principles">
+<div class="principle reveal" data-num="I">
+<p class="principle-en">Observe</p>
+<div class="principle-rule"></div>
+<p class="principle-ja">生命を観る</p>
+<p class="principle-desc">診断しない。処方しない。<br>ただ、観る。<br><br>植物を観る。身体を観る。<br>動物を観る。<br><br>その観察の積み重ねが、<br>すべての実践の出発点である。</p>
+</div>
+<div class="principle reveal" data-num="II">
+<p class="principle-en">Remember</p>
+<div class="principle-rule"></div>
+<p class="principle-ja">植物と記憶する</p>
+<p class="principle-desc">植物には記憶がある。<br>身体にも記憶がある。<br><br>病気になる前の、<br>本来の状態への記憶。<br><br>ハーブはその記憶を<br>静かに呼び覚ます。</p>
+</div>
+<div class="principle reveal" data-num="III">
+<p class="principle-en">Sustain</p>
+<div class="principle-rule"></div>
+<p class="principle-ja">回復力を支える</p>
+<p class="principle-desc">治すのではなく、支える。<br><br>人と動物が本来持つ<br>自己回復の力を信じ、<br>その力が発揮される<br>環境と素材を整えること。<br><br>それが私の仕事である。</p>
+</div>
+</div>
+</div>
+</section>
+<section class="ch4">
+<div class="ch4-inner">
+<p class="ch4-pre reveal-slow">Manifesto</p>
+<div class="manifesto-body reveal">
+私は、<em>生命の微細なサインを読む人間</em>である。
+<span class="pause"></span>
+植物と動物の対話に耳を傾け、<br>言葉にならないものを<em>言葉にする</em>。
+<span class="pause"></span>
+<span class="accent">Herbal Apothecary Garden</span> は、<br>ナチュラル雑貨の店ではない。
+<span class="pause"></span>
+ハーブを売るのではなく、<br><em>植物と暮らす時間</em>を、共につくる場所。
+</div>
+<div class="ch4-close reveal">
+ここに来る方は、治療を求めているのではなく、<br>自分の身体の声を、もう一度聴きたい方へ。
+<strong>Botanical Maison · 植物の私設薬草館</strong>
+</div>
+</div>
+</section>
+<section class="ch5">
+<div class="ch5-inner">
+<p class="ch5-label reveal-slow">私は何者か</p>
+<p class="ch5-text reveal">私がこの仕事を続けるのは、<br>植物が、いつも正直でいてくれるから。</p>
+<p class="ch5-text reveal">植物は主張しない。<br>ただ、そこにある。<br>観察する者にだけ、<br>その言葉を開く。</p>
+<p class="ch5-text reveal">30種以上の薬用植物を育て、<br>愛犬たちの身体の変化を記録し、<br>人の不調に植物を合わせ続けた10年は、<br>すべてこの一点に向かっていた。</p>
+<p class="ch5-text reveal">〝植物と動物の微細なサインを読み取り、<br>暮らしを静かに整えるアポセカリー〟</p>
+<p class="ch5-text reveal">それが、私である。</p>
+<div class="ch5-final reveal">
+<p class="ch5-final-en">Plants remember.<br>And so do we.</p>
+<p class="ch5-final-ja">— Herbal Apothecary Garden</p>
+</div>
+</div>
+</section>
+<footer>
+<span class="footer-mark">Herbal Apothecary Garden</span>
+<span class="footer-copy">Philosophy · 思想</span>
+</footer>
+<script>
+const dot=document.getElementById('dot');
+const ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+const io=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('on'),i*120);});},{threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-slow').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
+
