@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice — Herbal Apothecary Garden</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment: #f4f0e8;
+      --gold: #b8975a;
+      --gold-faint: rgba(184,151,90,0.12);
+    }
+
+    body {
+      background-color: #0e0d0b;
+      color: var(--parchment);
+      font-family: 'EB Garamond', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── ナビ ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      background: linear-gradient(to bottom, rgba(14,13,11,0.95), transparent);
+    }
+
+    .nav-home {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: rgba(244,240,232,0.5);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.4s;
+    }
+    .nav-home:hover { color: var(--gold); }
+
+    .nav-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      color: rgba(244,240,232,0.35);
+      text-transform: uppercase;
+    }
+
+    /* ── ヘッダー ── */
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 9rem 2rem 4rem;
+    }
+
+    .header-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.2s forwards;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--parchment);
+      margin: 0.8rem 0 1.2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.4s forwards;
+    }
+
+    .header-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.5);
+      opacity: 0;
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+
+    .header-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2rem auto 0;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.8s forwards;
+    }
+
+    /* ── メインコンテンツ ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 3rem auto 6rem;
+      padding: 0 1.5rem;
+    }
+
+    /* ── セクション見出し ── */
+    .section-header {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0 1.6rem;
+      border-bottom: 1px solid rgba(184,151,90,0.2);
+      user-select: none;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .section-header:first-of-type { border-top: 1px solid rgba(184,151,90,0.2); }
+
+    .section-title-wrap { flex: 1; }
+
+    .section-en {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--parchment);
+      text-transform: uppercase;
+    }
+
+    .section-ja {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-top: 0.3rem;
+      letter-spacing: 0.06em;
+    }
+
+    .section-arrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: rgba(184,151,90,0.5);
+      transition: transform 0.4s, color 0.3s;
+      margin-left: 1rem;
+    }
+    .section-header.open .section-arrow {
+      transform: rotate(180deg);
+      color: var(--gold);
+    }
+
+    /* ── 詳細パネル ── */
+    .section-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease;
+    }
+    .section-detail.open { max-height: 2000px; }
+
+    .section-inner {
+      padding: 2rem 0 2.5rem;
+    }
+
+    /* ── コースカード ── */
+    .course-card {
+      border: 1px solid rgba(184,151,90,0.15);
+      padding: 1.6rem 1.8rem;
+      margin-bottom: 1.2rem;
+      background: rgba(184,151,90,0.03);
+      transition: border-color 0.3s;
+    }
+    .course-card:last-child { margin-bottom: 0; }
+    .course-card:hover { border-color: rgba(184,151,90,0.3); }
+
+    .course-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .course-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(244,240,232,0.75);
+      margin-bottom: 1.2rem;
+    }
+
+    .course-price {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--parchment);
+    }
+
+    .course-price span {
+      font-size: 0.65rem;
+      color: rgba(244,240,232,0.4);
+      letter-spacing: 0.2em;
+      margin-left: 0.5rem;
+    }
+
+    /* ── 犬相談の料金テーブル ── */
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.4rem;
+    }
+
+    .price-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid rgba(184,151,90,0.2);
+      font-weight: 300;
+    }
+
+    .price-table td {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.9rem;
+      color: rgba(244,240,232,0.75);
+      padding: 0.7rem 0.8rem;
+      border-bottom: 1px solid rgba(184,151,90,0.08);
+      line-height: 1.6;
+    }
+
+    .price-table td.price {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--parchment);
+      white-space: nowrap;
+    }
+
+    .notice {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.4);
+      line-height: 1.8;
+      border-top: 1px solid rgba(184,151,90,0.1);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* ── お問い合わせボタン群 ── */
+    .contact-section {
+      margin-top: 4rem;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+
+    .contact-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.5);
+      margin-bottom: 2rem;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      padding: 1rem 1.5rem;
+      border: 1px solid rgba(184,151,90,0.3);
+      color: rgba(244,240,232,0.7);
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
+    }
+    .btn:hover {
+      border-color: var(--gold);
+      color: var(--parchment);
+      background: rgba(184,151,90,0.06);
+    }
+
+    .btn-icon {
+      display: inline-block;
+      margin-right: 0.5em;
+      opacity: 0.6;
+    }
+
+    /* ── フッター ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem 2.5rem;
+      border-top: 1px solid rgba(184,151,90,0.12);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: rgba(244,240,232,0.4);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-ig {
+      display: block;
+      text-decoration: none;
+      margin-bottom: 1.8rem;
+      transition: opacity 0.3s;
+    }
+    .footer-ig:hover { opacity: 0.7; }
+
+    .footer-ig-text {
+      display: block;
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.6);
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-ig-handle {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+    }
+
+    .footer-ig-handle svg {
+      vertical-align: middle;
+      margin-right: 0.4em;
+    }
+
+    .footer-copy {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.7rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.18);
+    }
+
+    /* ── アニメーション ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header:nth-child(1) { animation-delay: 0.2s; }
+    .section-header:nth-child(3) { animation-delay: 0.35s; }
+    .section-header:nth-child(5) { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-home">← Herbal Apothecary Garden</a>
+  <span class="nav-title">Practice</span>
+</nav>
+
+<header>
+  <p class="header-label">Herbal Apothecary Garden</p>
+  <h1>Practice</h1>
+  <p class="header-desc">植物と、身体の声に耳を傾ける時間</p>
+  <div class="header-rule"></div>
+</header>
+
+<main>
+
+  <!-- ── Botanical Consultation ── -->
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title-wrap">
+      <div class="section-en">Botanical Consultation</div>
+      <div class="section-ja">人のためのハーブ相談</div>
+    </div>
+    <div class="section-arrow">▽</div>
+  </div>
+  <div class="section-detail">
+    <div class="section-inner">
+
+      <div class="course-card">
+        <div class="course-label">Course I</div>
+        <p class="course-desc">
+          症状をひとつお申し出いただき、それに対するハーブティーのレシピと、メディカルハーブティーサンプルをお作り致します。
+        </p>
+        <div class="course-price">¥4,000<span>tax incl.</span></div>
+      </div>
+
+      <div class="course-card">
+        <div class="course-label">Course II</div>
+        <p class="course-desc">
+          複数の症状をじっくりとお伺いし、生活面・体調面・精神面など様々な角度から適応ハーブを選び、効果的なブレンドを作成致します。<br>
+          メディカルハーブティーサンプル（30g）と、ご自身で後日ブレンドしていただくためのレシピをお作り致します。<br><br>
+          <em>1ヶ月間LINEによるハーブ使用法サポート付き</em>
+        </p>
+        <div class="course-price">¥8,000<span>tax incl.</span></div>
+      </div>
+
+      <div class="course-card">
+        <div class="course-label">Course III</div>
+        <p class="course-desc">
+          Course IIのサポート延長プラン（1ヶ月）。<br>
+          ハーブティーサンプル（30g）含む。<br>
+          Course IIでお伺いした内容に限ります。
+        </p>
+        <div class="course-price">¥3,500<span>tax incl.</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Canine Herbal Consultation ── -->
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title-wrap">
+      <div class="section-en">Canine Herbal Consultation</div>
+      <div class="section-ja">愛犬のためのハーブ相談</div>
+    </div>
+    <div class="section-arrow">▽</div>
+  </div>
+  <div class="section-detail">
+    <div class="section-inner">
+
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>相談内容</th>
+            <th>料金</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>お悩み 1つ / 1頭</td>
+            <td class="price">¥1,500</td>
+          </tr>
+          <tr>
+            <td>お悩み 2つ / 1頭</td>
+            <td class="price">¥3,000</td>
+          </tr>
+          <tr>
+            <td>お悩み 3つ / 1頭<br><small style="opacity:0.6">全身のご相談はこちら</small></td>
+            <td class="price">¥4,500</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="course-card">
+        <div class="course-label">Herb Fee</div>
+        <p class="course-desc">
+          ハーブ料金は体重や処方ハーブにより変動します。<br>
+          10g〜60g：¥2,000〜（配合ハーブにより変動）
+        </p>
+      </div>
+
+      <p class="notice">
+        近畿農政局 愛玩動物飼料製造販売業者登録 届出済み
+      </p>
+
+    </div>
+  </div>
+
+  <!-- お問い合わせ -->
+  <div class="contact-section">
+    <p class="contact-label">Contact</p>
+    <p class="contact-desc">ご予約・お問い合わせはこちらから</p>
+    <div class="contact-buttons">
+      <a class="btn" href="https://lin.ee/up53x0z" target="_blank" rel="noopener">
+        <span class="btn-icon">✉</span>Line でお問い合わせ
+      </a>
+      <a class="btn" href="mailto:herbalapothecarygarden@gmail.com">
+        <span class="btn-icon">✉</span>Mail でお問い合わせ
+      </a>
+      <a class="btn" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>Instagram でお問い合わせ
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">Herbal Apothecary Garden</div>
+  <a class="footer-ig" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">
+    <span class="footer-ig-text">庭の日々は、Instagramで。</span>
+    <span class="footer-ig-handle">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+      @herbal_apothecary_garden
+    </span>
+  </a>
+  <div class="footer-copy">© 2025 Herbal Apothecary Garden · All rights reserved</div>
+</footer>
+
+<script>
+  function toggle(header) {
+    const detail = header.nextElementSibling;
+    if (!detail || !detail.classList.contains('section-detail')) return;
+
+    const isOpen = detail.classList.contains('open');
+
+    // 他を全部閉じる
+    document.querySelectorAll('.section-detail.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      detail.classList.add('open');
+      header.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>
