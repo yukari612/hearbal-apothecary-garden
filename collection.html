@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection — Herbal Apothecary Garden</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment: #f4f0e8;
+      --gold: #b8975a;
+    }
+
+    body {
+      background-color: #0e0d0b;
+      color: var(--parchment);
+      font-family: 'EB Garamond', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      background: linear-gradient(to bottom, rgba(14,13,11,0.95), transparent);
+    }
+
+    .nav-home {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: rgba(244,240,232,0.5);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.4s;
+    }
+    .nav-home:hover { color: var(--gold); }
+
+    .nav-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.4em;
+      color: rgba(244,240,232,0.35);
+      text-transform: uppercase;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 10rem 2rem 5rem;
+    }
+
+    .header-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.2s forwards;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--parchment);
+      margin: 0.8rem 0 1.4rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.4s forwards;
+    }
+
+    .header-lead {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.55);
+      line-height: 2;
+      max-width: 560px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.6s forwards;
+    }
+
+    .header-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 2.5rem auto 0;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.8s forwards;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 6rem;
+    }
+
+    /* ── コレクションブロック ── */
+    .collection-block {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid rgba(184,151,90,0.1);
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards;
+    }
+    .collection-block:nth-child(1) { animation-delay: 0.1s; }
+    .collection-block:nth-child(2) { animation-delay: 0.25s; }
+
+    .collection-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .collection-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--parchment);
+      margin-bottom: 0.5rem;
+    }
+
+    .collection-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.45);
+      margin-bottom: 2rem;
+      line-height: 1.9;
+    }
+
+    /* ── 商品リスト ── */
+    .item-list {
+      list-style: none;
+      margin-bottom: 2.2rem;
+    }
+
+    .item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(184,151,90,0.07);
+    }
+    .item:last-child { border-bottom: none; }
+
+    .item-dot {
+      width: 4px;
+      height: 4px;
+      border: 1px solid rgba(184,151,90,0.5);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.4rem;
+    }
+
+    .item-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: rgba(244,240,232,0.75);
+      line-height: 1.7;
+    }
+
+    .item-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: rgba(184,151,90,0.6);
+      border: 1px solid rgba(184,151,90,0.25);
+      padding: 0.2em 0.5em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+
+    /* ── SHOPボタン ── */
+    .shop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(244,240,232,0.7);
+      border: 1px solid rgba(184,151,90,0.3);
+      padding: 0.9rem 1.8rem;
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
+    }
+    .shop-btn:hover {
+      border-color: var(--gold);
+      color: var(--parchment);
+      background: rgba(184,151,90,0.06);
+    }
+
+    .shop-btn::after {
+      content: '→';
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+
+    /* ── Coming Soon ── */
+    .coming-soon {
+      margin-top: 3.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(184,151,90,0.1);
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    .coming-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.5em;
+      color: rgba(184,151,90,0.4);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .coming-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: rgba(244,240,232,0.3);
+      margin-bottom: 0.6rem;
+    }
+
+    .coming-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.25);
+    }
+
+    /* ── 導線 ── */
+    .explore {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(184,151,90,0.12);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.55s forwards;
+    }
+
+    .explore-note {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.35);
+      margin-bottom: 1.4rem;
+    }
+
+    .explore-link {
+      display: inline-block;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: rgba(184,151,90,0.6);
+      text-transform: uppercase;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(184,151,90,0.25);
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .explore-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ── フッター ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 2rem 2.5rem;
+      border-top: 1px solid rgba(184,151,90,0.12);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: rgba(244,240,232,0.4);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-ig {
+      display: block;
+      text-decoration: none;
+      margin-bottom: 1.8rem;
+      transition: opacity 0.3s;
+    }
+    .footer-ig:hover { opacity: 0.7; }
+
+    .footer-ig-text {
+      display: block;
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.6);
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-ig-handle {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.7rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.18);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-home">← Herbal Apothecary Garden</a>
+  <span class="nav-title">Collection</span>
+</nav>
+
+<header>
+  <p class="header-label">Herbal Apothecary Garden</p>
+  <h1>Collection</h1>
+  <p class="header-lead">
+    庭で育つ植物の力を、日々の暮らしへ。<br>
+    すべて、植物の知恵から生まれたものです。
+  </p>
+  <div class="header-rule"></div>
+</header>
+
+<main>
+
+  <!-- ── Animal Collection ── -->
+  <div class="collection-block">
+    <div class="collection-tag">Animal Collection</div>
+    <div class="collection-title">愛犬のための植物ケア</div>
+    <p class="collection-desc">
+      ワンちゃんの体質・体調に寄り添う、<br>
+      植物由来のケアアイテム。
+    </p>
+
+    <ul class="item-list">
+      <li class="item">
+        <span class="item-dot"></span>
+        <span class="item-name">体質サポートハーブ</span>
+      </li>
+      <li class="item">
+        <span class="item-dot"></span>
+        <span class="item-name">肉球クリーム</span>
+      </li>
+      <li class="item">
+        <span class="item-dot"></span>
+        <span class="item-name">ブラッシングスプレー</span>
+      </li>
+      <li class="item">
+        <span class="item-dot"></span>
+        <span class="item-name">虫除け</span>
+        <span class="item-badge">Coming Soon</span>
+      </li>
+    </ul>
+
+    <a class="shop-btn" href="https://herbdogcare.base.shop" target="_blank" rel="noopener">
+      Shop Animal Collection
+    </a>
+  </div>
+
+  <!-- ── Home Collection ── -->
+  <div class="collection-block">
+    <div class="collection-tag">Home Collection</div>
+    <div class="collection-title">暮らしに寄り添う植物のちから</div>
+    <p class="collection-desc">
+      植物の香りと力を纏った、<br>
+      日常をやさしく整えるアイテム。
+    </p>
+
+    <ul class="item-list">
+      <li class="item">
+        <span class="item-dot"></span>
+        <span class="item-name">ナチュラル柔軟剤</span>
+      </li>
+      <li class="item">
+        <span class="item-dot"></span>
+        <span class="item-name">植物性殺虫・忌避剤</span>
+        <span class="item-badge">Coming Soon</span>
+      </li>
+    </ul>
+
+    <a class="shop-btn" href="https://herbdogcare.base.shop" target="_blank" rel="noopener">
+      Shop Home Collection
+    </a>
+  </div>
+
+  <!-- Coming Soon -->
+  <div class="coming-soon">
+    <p class="coming-label">Coming Soon</p>
+    <p class="coming-title">Seasonal Collection</p>
+    <p class="coming-desc">季節の植物からインスピレーションを受けた、限定コレクション。</p>
+  </div>
+
+  <!-- 導線 -->
+  <div class="explore">
+    <p class="explore-note">植物の庭を歩く</p>
+    <a class="explore-link" href="botanical-library.html">Explore Botanical Library</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo">Herbal Apothecary Garden</div>
+  <a class="footer-ig" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">
+    <span class="footer-ig-text">庭の日々は、Instagramで。</span>
+    <span class="footer-ig-handle">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:0.4em">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+      @herbal_apothecary_garden
+    </span>
+  </a>
+  <div class="footer-copy">© 2025 Herbal Apothecary Garden · All rights reserved</div>
+</footer>
+
+</body>
+</html>
