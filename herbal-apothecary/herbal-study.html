@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collection — Herbal Apothecary Garden</title>
+  <title>Herbal Study — Herbal Apothecary Garden</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -120,17 +120,18 @@
       padding: 0 1.5rem 6rem;
     }
 
-    /* ── コレクションブロック ── */
-    .collection-block {
+    /* ── コースブロック ── */
+    .course-block {
       padding: 3.5rem 0;
       border-bottom: 1px solid rgba(184,151,90,0.1);
       opacity: 0;
       animation: fadeUp 0.9s ease forwards;
     }
-    .collection-block:nth-child(1) { animation-delay: 0.1s; }
-    .collection-block:nth-child(2) { animation-delay: 0.25s; }
+    .course-block:nth-child(1) { animation-delay: 0.1s; }
+    .course-block:nth-child(2) { animation-delay: 0.25s; }
+    .course-block:nth-child(3) { animation-delay: 0.4s; }
 
-    .collection-tag {
+    .course-tag {
       font-family: 'Cinzel', serif;
       font-size: 0.55rem;
       letter-spacing: 0.5em;
@@ -139,137 +140,209 @@
       margin-bottom: 0.8rem;
     }
 
-    .collection-title {
+    .course-title {
       font-family: 'Cinzel', serif;
       font-size: clamp(1rem, 2.5vw, 1.25rem);
       font-weight: 300;
       letter-spacing: 0.12em;
       color: var(--parchment);
       margin-bottom: 0.5rem;
+      line-height: 1.6;
     }
 
-    .collection-desc {
+    .course-subtitle {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.45);
+      margin-bottom: 2rem;
+    }
+
+    /* ── 回ごとのリスト ── */
+    .session-list {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .session-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0.8rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(184,151,90,0.07);
+      align-items: start;
+    }
+    .session-item:last-child { border-bottom: none; }
+
+    .session-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      padding-top: 0.15rem;
+    }
+
+    .session-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(244,240,232,0.7);
+    }
+
+    .session-note {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.4);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ── 料金バッジ ── */
+    .price-block {
+      background: rgba(184,151,90,0.05);
+      border: 1px solid rgba(184,151,90,0.18);
+      padding: 1.4rem 1.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(184,151,90,0.08);
+    }
+    .price-row:last-child { border-bottom: none; }
+
+    .price-label {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.9rem;
+      color: rgba(244,240,232,0.6);
+    }
+
+    .price-val {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: var(--parchment);
+    }
+
+    .price-sub {
+      font-size: 0.7rem;
+      color: rgba(244,240,232,0.35);
+      letter-spacing: 0.1em;
+      margin-left: 0.4rem;
+    }
+
+    /* ── 犬ノート ── */
+    .dog-note {
+      margin-top: 1.4rem;
+      padding: 1rem 1.4rem;
+      border-left: 2px solid rgba(184,151,90,0.3);
+      font-family: 'EB Garamond', serif;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.45);
+      line-height: 1.9;
+    }
+
+    /* ── 個別レッスンの特記 ── */
+    .private-flow {
+      margin: 1.4rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .flow-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 0.8rem;
+      align-items: start;
+    }
+
+    .flow-circle {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(184,151,90,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .flow-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(244,240,232,0.7);
+    }
+
+    /* ── お問い合わせ ── */
+    .contact-section {
+      margin-top: 4rem;
+      text-align: center;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(184,151,90,0.12);
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.6s forwards;
+    }
+
+    .contact-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .contact-desc {
       font-family: 'EB Garamond', serif;
       font-size: 1rem;
       font-style: italic;
-      color: rgba(244,240,232,0.45);
+      color: rgba(244,240,232,0.5);
       margin-bottom: 2rem;
       line-height: 1.9;
     }
 
-    /* ── 商品リスト ── */
-    .item-list {
-      list-style: none;
-      margin-bottom: 2.2rem;
-    }
-
-    .item {
+    .contact-buttons {
       display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid rgba(184,151,90,0.07);
-    }
-    .item:last-child { border-bottom: none; }
-
-    .item-dot {
-      width: 4px;
-      height: 4px;
-      border: 1px solid rgba(184,151,90,0.5);
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 0.4rem;
+      flex-direction: column;
+      gap: 0.8rem;
+      max-width: 320px;
+      margin: 0 auto 3rem;
     }
 
-    .item-name {
-      font-family: 'EB Garamond', serif;
-      font-size: 1rem;
-      color: rgba(244,240,232,0.75);
-      line-height: 1.7;
-    }
-
-    .item-badge {
-      font-family: 'Cinzel', serif;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      color: rgba(184,151,90,0.6);
-      border: 1px solid rgba(184,151,90,0.25);
-      padding: 0.2em 0.5em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      margin-left: auto;
-    }
-
-    /* ── SHOPボタン ── */
-    .shop-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
+    .btn {
+      display: block;
       text-decoration: none;
+      text-align: center;
       font-family: 'Cinzel', serif;
       font-size: 0.65rem;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: rgba(244,240,232,0.7);
+      padding: 1rem 1.5rem;
       border: 1px solid rgba(184,151,90,0.3);
-      padding: 0.9rem 1.8rem;
+      color: rgba(244,240,232,0.7);
       transition: border-color 0.3s, color 0.3s, background 0.3s;
     }
-    .shop-btn:hover {
+    .btn:hover {
       border-color: var(--gold);
       color: var(--parchment);
       background: rgba(184,151,90,0.06);
     }
 
-    .shop-btn::after {
-      content: '→';
-      font-size: 0.7rem;
-      opacity: 0.5;
-    }
-
-    /* ── Coming Soon ── */
-    .coming-soon {
-      margin-top: 3.5rem;
-      padding: 2rem;
-      border: 1px solid rgba(184,151,90,0.1);
-      text-align: center;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.4s forwards;
-    }
-
-    .coming-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.5em;
-      color: rgba(184,151,90,0.4);
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
-    }
-
-    .coming-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.9rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      color: rgba(244,240,232,0.3);
-      margin-bottom: 0.6rem;
-    }
-
-    .coming-desc {
-      font-family: 'EB Garamond', serif;
-      font-size: 0.88rem;
-      font-style: italic;
-      color: rgba(244,240,232,0.25);
-    }
-
     /* ── 導線 ── */
     .explore {
       text-align: center;
-      margin-top: 4rem;
-      padding-top: 3rem;
-      border-top: 1px solid rgba(184,151,90,0.12);
       opacity: 0;
-      animation: fadeUp 0.9s ease 0.55s forwards;
+      animation: fadeUp 0.9s ease 0.75s forwards;
     }
 
     .explore-note {
@@ -392,96 +465,181 @@
   <a class="nav-item" href="botanical-advisory.html">Botanical Advisory</a>
   <div class="nav-divider"></div>
   <a class="nav-item" href="consultations.html">Consultations</a>
-  <a class="nav-item" href="herbal-study.html">Herbal Study</a>
+  <a class="nav-item active" href="herbal-study.html">Herbal Study</a>
   <div class="nav-divider"></div>
-  <a class="nav-item active" href="collection.html">Collection</a>
+  <a class="nav-item" href="collection.html">Collection</a>
   <a class="nav-item" href="contact.html">Contact</a>
   <a class="nav-overlay-ig" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">@herbal_apothecary_garden</a>
 </div>
 
 <header>
   <p class="header-label">Herbal Apothecary Garden</p>
-  <h1>Collection</h1>
+  <h1>Herbal Study</h1>
   <p class="header-lead">
-    庭で育つ植物の力を、日々の暮らしへ。<br>
-    すべて、植物の知恵から生まれたものです。
+    整う・学ぶ・<br>
+    メディカルハーブをあなたの力にする
   </p>
   <div class="header-rule"></div>
 </header>
 
 <main>
 
-  <!-- ── Animal Collection ── -->
-  <div class="collection-block">
-    <div class="collection-tag">Animal Collection</div>
-    <div class="collection-title">愛犬のための植物ケア</div>
-    <p class="collection-desc">
-      ワンちゃんの体質・体調に寄り添う、<br>
-      植物由来のケアアイテム。
-    </p>
+  <!-- ── 全6回講座 ── -->
+  <div class="course-block">
+    <div class="course-tag">Course I</div>
+    <div class="course-title">メディカルハーブ講座</div>
+    <div class="course-subtitle">全6回 · オンライン / 対面</div>
 
-    <ul class="item-list">
-      <li class="item">
-        <span class="item-dot"></span>
-        <span class="item-name">体質サポートハーブ</span>
+    <ul class="session-list">
+      <li class="session-item">
+        <span class="session-num">第1回</span>
+        <span class="session-text">メディカルハーブ・自然療法とは<br>ハーブ活用時その他の材料について / メディカルハーブ3種</span>
       </li>
-      <li class="item">
-        <span class="item-dot"></span>
-        <span class="item-name">肉球クリーム</span>
+      <li class="session-item">
+        <span class="session-num">第2回</span>
+        <span class="session-text">メディカルハーブの歴史<br>ハーブを安全に使用するための注意 / メディカルハーブ3種</span>
       </li>
-      <li class="item">
-        <span class="item-dot"></span>
-        <span class="item-name">ブラッシングスプレー</span>
+      <li class="session-item">
+        <span class="session-num">第3回</span>
+        <span class="session-text">植物化学成分について<br>メディカルハーブ3種</span>
       </li>
-      <li class="item">
-        <span class="item-dot"></span>
-        <span class="item-name">虫除け</span>
-        <span class="item-badge">Coming Soon</span>
+      <li class="session-item">
+        <span class="session-num">第4回</span>
+        <span class="session-text">メディカルハーブの働き<br>メディカルハーブ3種</span>
       </li>
-    </ul>
-
-    <a class="shop-btn" href="https://herbdogcare.base.shop" target="_blank" rel="noopener">
-      Shop Animal Collection
-    </a>
-  </div>
-
-  <!-- ── Home Collection ── -->
-  <div class="collection-block">
-    <div class="collection-tag">Home Collection</div>
-    <div class="collection-title">暮らしに寄り添う植物のちから</div>
-    <p class="collection-desc">
-      植物の香りと力を纏った、<br>
-      日常をやさしく整えるアイテム。
-    </p>
-
-    <ul class="item-list">
-      <li class="item">
-        <span class="item-dot"></span>
-        <span class="item-name">ナチュラル柔軟剤</span>
+      <li class="session-item">
+        <span class="session-num">第5回</span>
+        <span class="session-text">メディカルハーブの組み合わせかたについて<br>メディカルハーブ3種</span>
       </li>
-      <li class="item">
-        <span class="item-dot"></span>
-        <span class="item-name">植物性殺虫・忌避剤</span>
-        <span class="item-badge">Coming Soon</span>
+      <li class="session-item">
+        <span class="session-num">第6回</span>
+        <span class="session-text">おさらい会
+          <span class="session-note">※第1〜5回をすべてお受けいただいた方のみ</span>
+          ワンちゃん用体質テストガーデンの作り方・ハーブの種類と選び方 / メディカルハーブ15種 · 質疑応答
+        </span>
       </li>
     </ul>
 
-    <a class="shop-btn" href="https://herbdogcare.base.shop" target="_blank" rel="noopener">
-      Shop Home Collection
-    </a>
+    <div class="price-block">
+      <div class="price-row">
+        <span class="price-label">受講費（各回）</span>
+        <span class="price-val">¥5,000<span class="price-sub">/ 回</span></span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">テキスト代</span>
+        <span class="price-val">¥3,080<span class="price-sub">初回のみ</span></span>
+      </div>
+    </div>
+
+    <p class="dog-note">
+      ワンちゃんに使えるハーブが含まれる回には、その説明や使用方法も含まれます。
+    </p>
   </div>
 
-  <!-- Coming Soon -->
-  <div class="coming-soon">
-    <p class="coming-label">Coming Soon</p>
-    <p class="coming-title">Seasonal Collection</p>
-    <p class="coming-desc">季節の植物からインスピレーションを受けた、限定コレクション。</p>
+  <!-- ── メディカルハーブ実習 ── -->
+  <div class="course-block">
+    <div class="course-tag">Course II · Optional</div>
+    <div class="course-title">メディカルハーブ実習</div>
+    <div class="course-subtitle">各回講座とセット · 希望者のみ · 対面のみ · 約30〜45分</div>
+
+    <ul class="session-list">
+      <li class="session-item">
+        <span class="session-num">第1回</span>
+        <span class="session-text">免疫力アップ・感染症予防 内用チンキの作り方<br>ハーブティーの様々な使い方</span>
+      </li>
+      <li class="session-item">
+        <span class="session-num">第2回</span>
+        <span class="session-text">筋肉疲労回復 or 抗炎症効果たっぷりの浸出油作り</span>
+      </li>
+      <li class="session-item">
+        <span class="session-num">第3回</span>
+        <span class="session-text">保湿軟膏作り
+          <span class="session-note">ご希望の効能を選べます。ワンちゃんの肉球クリームにも使用可能。</span>
+        </span>
+      </li>
+      <li class="session-item">
+        <span class="session-num">第4回</span>
+        <span class="session-text">美白パック or ワンちゃんの肌ケアパック作り</span>
+      </li>
+      <li class="session-item">
+        <span class="session-num">第5回</span>
+        <span class="session-text">リラックスタイムに最適なハーバルバスソルト、もしくはバスサシェ作り</span>
+      </li>
+      <li class="session-item">
+        <span class="session-num">第6回</span>
+        <span class="session-text">様々なハーブの活用方法</span>
+      </li>
+    </ul>
+
+    <div class="price-block">
+      <div class="price-row">
+        <span class="price-label">実習費（各回・材料費込み）</span>
+        <span class="price-val">¥2,500<span class="price-sub">/ 回</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 個別レッスン ── -->
+  <div class="course-block">
+    <div class="course-tag">Private Lesson</div>
+    <div class="course-title">個別レッスンコース</div>
+    <div class="course-subtitle">あなただけの特別なテキストで学ぶ · 全2回 · オンライン / 対面</div>
+
+    <p style="font-family:'EB Garamond',serif;font-size:1rem;line-height:2;color:rgba(244,240,232,0.65);margin-bottom:1.8rem;font-style:italic;">
+      「この悩みに直接対応するハーブだけを学びたい」という方のために。<br>
+      あなただけの特別なテキストをお作りし、じっくりお伝えします。
+    </p>
+
+    <div class="private-flow">
+      <div class="flow-item">
+        <div class="flow-circle">1</div>
+        <div class="flow-text">座学と簡単な実習<br>
+          <span style="font-size:0.85rem;color:rgba(244,240,232,0.45);font-style:italic;">お悩みに合わせたハーブを丁寧にご説明します</span>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-circle">2</div>
+        <div class="flow-text">主に実習<br>
+          <span style="font-size:0.85rem;color:rgba(244,240,232,0.45);font-style:italic;">ハーブをご自身でずっと使える知識を定着へ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-block" style="margin-top:1.8rem;">
+      <div class="price-row">
+        <span class="price-label">受講費（全2回）</span>
+        <span class="price-val">¥22,000</span>
+      </div>
+      <div class="price-row">
+        <span class="price-label">LINEサポート</span>
+        <span class="price-val" style="font-size:0.85rem;color:rgba(244,240,232,0.6);">1ヶ月間付き</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- お問い合わせ -->
+  <div class="contact-section">
+    <p class="contact-label">お申し込み · お問い合わせ</p>
+    <p class="contact-desc">
+      ご希望の講座・日程など、<br>お気軽にご相談ください。
+    </p>
+    <div class="contact-buttons">
+      <a class="btn" href="https://lin.ee/up53x0z" target="_blank" rel="noopener">
+        Line でお問い合わせ
+      </a>
+      <a class="btn" href="mailto:herbalapothecarygarden@gmail.com">
+        Mail でお問い合わせ
+      </a>
+      <a class="btn" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">
+        Instagram でお問い合わせ
+      </a>
+    </div>
   </div>
 
   <!-- 導線 -->
   <div class="explore">
-    <p class="explore-note">植物の庭を歩く</p>
-    <a class="explore-link" href="botanical-library.html">Explore Botanical Library</a>
+    <p class="explore-note">植物との対話について</p>
+    <a class="explore-link" href="consultations.html">Explore Consultations</a>
   </div>
 
 </main>

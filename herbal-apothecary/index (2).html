@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbal Apothecary Garden</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  background: #0d0c0a url('monastery.jpg.jpg') center/cover no-repeat;
+}
+/* ── カーソル ── */
+.dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(184,151,90,0.9);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+}
+.ring {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(184,151,90,0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: width 0.3s, height 0.3s;
+}
+.logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  opacity: 0;
+  animation: fadeIn 2s ease 0.5s forwards;
+  text-decoration: none;
+  cursor: none;
+}
+.logo-wrap img {
+  width: min(480px, 80vw);
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+  -webkit-mask-image: radial-gradient(ellipse 85% 80% at center, black 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 80% at center, black 60%, transparent 100%);
+}
+.enter {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: rgba(230,225,210,0.95);
+  transition: color 0.5s;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+  cursor: none;
+}
+.logo-wrap:hover .enter {
+  color: rgba(230,225,210,0.95);
+}
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(12px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<div class="dot" id="dot"></div>
+<div class="ring" id="ring"></div>
+
+<a href="herbal-apothecary/philosophy.html" class="logo-wrap">
+  <img src="logo.jpg" alt="Herbal Apothecary Garden">
+  <span class="enter">Enter</span>
+</a>
+
+<script>
+  const dot = document.getElementById('dot');
+  const ring = document.getElementById('ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+  (function loop() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+</script>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Botanical Advisory — Herbal Apothecary Garden</title>
+  <title>Consultations — Herbal Apothecary Garden</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,6 +11,7 @@
     :root {
       --parchment: #f4f0e8;
       --gold: #b8975a;
+      --gold-faint: rgba(184,151,90,0.12);
     }
 
     body {
@@ -69,7 +70,7 @@
       position: relative;
       z-index: 1;
       text-align: center;
-      padding: 10rem 2rem 5rem;
+      padding: 9rem 2rem 4rem;
     }
 
     .header-label {
@@ -88,19 +89,16 @@
       font-weight: 300;
       letter-spacing: 0.15em;
       color: var(--parchment);
-      margin: 0.8rem 0 1.4rem;
+      margin: 0.8rem 0 1.2rem;
       opacity: 0;
       animation: fadeUp 1s ease 0.4s forwards;
     }
 
-    .header-lead {
+    .header-desc {
       font-family: 'EB Garamond', serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-style: italic;
-      color: rgba(244,240,232,0.55);
-      line-height: 2;
-      max-width: 560px;
-      margin: 0 auto;
+      color: rgba(244,240,232,0.5);
       opacity: 0;
       animation: fadeUp 1s ease 0.6s forwards;
     }
@@ -109,143 +107,173 @@
       width: 60px;
       height: 1px;
       background: var(--gold);
-      margin: 2.5rem auto 0;
+      margin: 2rem auto 0;
       opacity: 0;
       animation: fadeUp 1s ease 0.8s forwards;
     }
 
-    /* ── メイン ── */
+    /* ── メインコンテンツ ── */
     main {
       position: relative;
       z-index: 1;
       max-width: 720px;
-      margin: 0 auto;
-      padding: 0 1.5rem 6rem;
+      margin: 3rem auto 6rem;
+      padding: 0 1.5rem;
     }
 
-    /* ── イントロ ── */
-    .intro {
-      text-align: center;
-      padding: 4rem 0 3.5rem;
-      border-bottom: 1px solid rgba(184,151,90,0.12);
+    /* ── セクション見出し ── */
+    .section-header {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0 1.6rem;
+      border-bottom: 1px solid rgba(184,151,90,0.2);
+      user-select: none;
       opacity: 0;
-      animation: fadeUp 1s ease 1s forwards;
+      animation: fadeUp 0.8s ease forwards;
     }
 
-    .intro p {
-      font-family: 'EB Garamond', serif;
-      font-size: 1.05rem;
-      line-height: 2.1;
-      color: rgba(244,240,232,0.7);
-    }
+    .section-header:first-of-type { border-top: 1px solid rgba(184,151,90,0.2); }
 
-    .intro em {
-      color: var(--parchment);
-      font-style: italic;
-    }
+    .section-title-wrap { flex: 1; }
 
-    /* ── セクション ── */
-    .section {
-      padding: 3.5rem 0;
-      border-bottom: 1px solid rgba(184,151,90,0.1);
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards;
-    }
-
-    .section:nth-child(2) { animation-delay: 0.1s; }
-    .section:nth-child(3) { animation-delay: 0.2s; }
-    .section:nth-child(4) { animation-delay: 0.3s; }
-    .section:nth-child(5) { animation-delay: 0.4s; }
-    .section:nth-child(6) { animation-delay: 0.5s; }
-
-    .section-tag {
+    .section-en {
       font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.5em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
       font-weight: 300;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.2em;
       color: var(--parchment);
-      margin-bottom: 1.4rem;
-      line-height: 1.6;
+      text-transform: uppercase;
     }
 
-    .section-body {
+    .section-ja {
       font-family: 'EB Garamond', serif;
-      font-size: 1rem;
-      line-height: 2.1;
-      color: rgba(244,240,232,0.65);
-    }
-
-    .section-body em {
-      color: rgba(244,240,232,0.85);
+      font-size: 0.85rem;
       font-style: italic;
+      color: var(--gold);
+      margin-top: 0.3rem;
+      letter-spacing: 0.06em;
     }
 
-    /* ── 強みブロック ── */
-    .strengths {
-      padding: 3.5rem 0;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.55s forwards;
+    .section-arrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: rgba(184,151,90,0.5);
+      transition: transform 0.4s, color 0.3s;
+      margin-left: 1rem;
+    }
+    .section-header.open .section-arrow {
+      transform: rotate(180deg);
+      color: var(--gold);
     }
 
-    .strengths-title {
+    /* ── 詳細パネル ── */
+    .section-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease;
+    }
+    .section-detail.open { max-height: 2000px; }
+
+    .section-inner {
+      padding: 2rem 0 2.5rem;
+    }
+
+    /* ── コースカード ── */
+    .course-card {
+      border: 1px solid rgba(184,151,90,0.15);
+      padding: 1.6rem 1.8rem;
+      margin-bottom: 1.2rem;
+      background: rgba(184,151,90,0.03);
+      transition: border-color 0.3s;
+    }
+    .course-card:last-child { margin-bottom: 0; }
+    .course-card:hover { border-color: rgba(184,151,90,0.3); }
+
+    .course-label {
       font-family: 'Cinzel', serif;
       font-size: 0.6rem;
-      letter-spacing: 0.5em;
+      letter-spacing: 0.4em;
       color: var(--gold);
       text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 0.6rem;
     }
 
-    .strength-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.4rem;
-    }
-
-    .strength-item {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 1.2rem;
-      align-items: start;
-      padding-bottom: 1.4rem;
-      border-bottom: 1px solid rgba(184,151,90,0.08);
-    }
-    .strength-item:last-child { border-bottom: none; }
-
-    .strength-key {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: var(--gold);
-      text-transform: uppercase;
-      padding-top: 0.2rem;
-    }
-
-    .strength-val {
+    .course-desc {
       font-family: 'EB Garamond', serif;
       font-size: 0.95rem;
       line-height: 1.9;
-      color: rgba(244,240,232,0.65);
+      color: rgba(244,240,232,0.75);
+      margin-bottom: 1.2rem;
     }
 
-    /* ── お問い合わせ ── */
+    .course-price {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--parchment);
+    }
+
+    .course-price span {
+      font-size: 0.65rem;
+      color: rgba(244,240,232,0.4);
+      letter-spacing: 0.2em;
+      margin-left: 0.5rem;
+    }
+
+    /* ── 犬相談の料金テーブル ── */
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.4rem;
+    }
+
+    .price-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid rgba(184,151,90,0.2);
+      font-weight: 300;
+    }
+
+    .price-table td {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.9rem;
+      color: rgba(244,240,232,0.75);
+      padding: 0.7rem 0.8rem;
+      border-bottom: 1px solid rgba(184,151,90,0.08);
+      line-height: 1.6;
+    }
+
+    .price-table td.price {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--parchment);
+      white-space: nowrap;
+    }
+
+    .notice {
+      font-family: 'EB Garamond', serif;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(244,240,232,0.4);
+      line-height: 1.8;
+      border-top: 1px solid rgba(184,151,90,0.1);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* ── お問い合わせボタン群 ── */
     .contact-section {
       margin-top: 4rem;
       text-align: center;
-      padding-top: 3rem;
-      border-top: 1px solid rgba(184,151,90,0.12);
       opacity: 0;
-      animation: fadeUp 0.9s ease 0.7s forwards;
+      animation: fadeUp 0.8s ease 0.6s forwards;
     }
 
     .contact-label {
@@ -259,11 +287,10 @@
 
     .contact-desc {
       font-family: 'EB Garamond', serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-style: italic;
       color: rgba(244,240,232,0.5);
       margin-bottom: 2rem;
-      line-height: 1.9;
     }
 
     .contact-buttons {
@@ -271,7 +298,7 @@
       flex-direction: column;
       gap: 0.8rem;
       max-width: 320px;
-      margin: 0 auto 3rem;
+      margin: 0 auto;
     }
 
     .btn {
@@ -293,37 +320,10 @@
       background: rgba(184,151,90,0.06);
     }
 
-    /* ── 導線 ── */
-    .explore {
-      text-align: center;
-      margin-top: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.85s forwards;
-    }
-
-    .explore-note {
-      font-family: 'EB Garamond', serif;
-      font-size: 0.85rem;
-      font-style: italic;
-      color: rgba(244,240,232,0.35);
-      margin-bottom: 1.4rem;
-    }
-
-    .explore-link {
+    .btn-icon {
       display: inline-block;
-      text-decoration: none;
-      font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      color: rgba(184,151,90,0.6);
-      text-transform: uppercase;
-      padding-bottom: 0.4rem;
-      border-bottom: 1px solid rgba(184,151,90,0.25);
-      transition: color 0.3s, border-color 0.3s;
-    }
-    .explore-link:hover {
-      color: var(--gold);
-      border-color: var(--gold);
+      margin-right: 0.5em;
+      opacity: 0.6;
     }
 
     /* ── フッター ── */
@@ -369,6 +369,11 @@
       color: var(--gold);
     }
 
+    .footer-ig-handle svg {
+      vertical-align: middle;
+      margin-right: 0.4em;
+    }
+
     .footer-copy {
       font-family: 'EB Garamond', serif;
       font-size: 0.7rem;
@@ -376,10 +381,15 @@
       color: rgba(244,240,232,0.18);
     }
 
+    /* ── アニメーション ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    .section-header:nth-child(1) { animation-delay: 0.2s; }
+    .section-header:nth-child(3) { animation-delay: 0.35s; }
+    .section-header:nth-child(5) { animation-delay: 0.5s; }
 
     /* ── カーソル ── */
     body { cursor: none; }
@@ -421,9 +431,9 @@
   <a class="nav-item" href="the-herbalist.html">The Herbalist</a>
   <div class="nav-divider"></div>
   <a class="nav-item" href="botanical-library.html">Botanical Library</a>
-  <a class="nav-item active" href="botanical-advisory.html">Botanical Advisory</a>
+  <a class="nav-item" href="botanical-advisory.html">Botanical Advisory</a>
   <div class="nav-divider"></div>
-  <a class="nav-item" href="consultations.html">Consultations</a>
+  <a class="nav-item active" href="consultations.html">Consultations</a>
   <a class="nav-item" href="herbal-study.html">Herbal Study</a>
   <div class="nav-divider"></div>
   <a class="nav-item" href="collection.html">Collection</a>
@@ -433,124 +443,159 @@
 
 <header>
   <p class="header-label">Herbal Apothecary Garden</p>
-  <h1>Botanical Advisory</h1>
-  <p class="header-lead">
-    植物の知性を、あなたのブランドへ。<br>
-    Botanical Intelligence for your vision.
-  </p>
+  <h1>Consultations</h1>
+  <p class="header-desc">植物と、身体の声に耳を傾ける時間</p>
   <div class="header-rule"></div>
 </header>
 
 <main>
 
-  <div class="intro">
-    <p>
-      伝統的な薬草学と現代の知見を融合させた独自の視点から、<br>
-      <em>植物の思想をかたちにする</em>お手伝いをいたします。<br><br>
-      製品開発の監修から、ブランドストーリーの設計、<br>
-      研修・講演まで。<br>
-      植物と人との、より深い関係を共に描きましょう。
-    </p>
+  <!-- ── Botanical Consultation ── -->
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title-wrap">
+      <div class="section-en">Botanical Consultation</div>
+      <div class="section-ja">人のためのハーブ相談</div>
+    </div>
+    <div class="section-arrow">▽</div>
   </div>
+  <div class="section-detail">
+    <div class="section-inner">
 
-  <!-- For Brands -->
-  <div class="section">
-    <div class="section-tag">For Brands</div>
-    <div class="section-title">商品開発監修</div>
-    <p class="section-body">
-      ハーブ・植物素材を活用した製品の開発において、
-      <em>素材選定・処方設計・品質基準の構築</em>をサポートいたします。
-      消費者が心から安心して手に取れる、確かな価値をプラスします。
-    </p>
-  </div>
-
-  <!-- For Wellness Organizations -->
-  <div class="section">
-    <div class="section-tag">For Wellness Organizations</div>
-    <div class="section-title">ウェルネス福利厚生の設計</div>
-    <p class="section-body">
-      植物の知恵を取り入れた<em>社員・顧客向けウェルビーイングプログラム</em>を設計します。
-      心身のバランスを整える植物療法の視点から、
-      組織に根付く「癒しの文化」を共に育てます。
-    </p>
-  </div>
-
-  <!-- For Educational Institutions -->
-  <div class="section">
-    <div class="section-tag">For Educational Institutions</div>
-    <div class="section-title">講演・研修</div>
-    <p class="section-body">
-      薬草学・植物療法・自然との共生をテーマにした<em>講演・ワークショップ・研修</em>を提供します。
-      学術的な知見と実践的な経験を織り交ぜた、
-      記憶に残るプログラムをお届けします。
-    </p>
-  </div>
-
-  <!-- Botanical Research -->
-  <div class="section">
-    <div class="section-tag">Botanical Research</div>
-    <div class="section-title">植物文化調査・リサーチ</div>
-    <p class="section-body">
-      特定の植物・ハーブに関する<em>歴史的・文化的・科学的調査</em>をお引き受けします。
-      ブランドや出版物、教育コンテンツのための、
-      深みある植物の物語を紐解きます。
-    </p>
-  </div>
-
-  <!-- Brand Storytelling -->
-  <div class="section">
-    <div class="section-tag">Brand Storytelling</div>
-    <div class="section-title">植物を活用したブランド構築</div>
-    <p class="section-body">
-      植物の思想をブランドの核に据えた<em>ストーリーテリングの設計</em>をご提案します。
-      既存製品・サービスの特性を活かしながら、
-      「植物の智慧」を纏った、唯一無二のブランド体験を共に創ります。
-    </p>
-  </div>
-
-  <!-- 強み -->
-  <div class="strengths">
-    <div class="strengths-title">Botanical Intelligence</div>
-    <div class="strength-list">
-      <div class="strength-item">
-        <div class="strength-key">専門性</div>
-        <div class="strength-val">伝統的な薬草学と現代の栄養学を融合させた、独自のメソッド。</div>
+      <div class="course-card">
+        <div class="course-label">Course I</div>
+        <p class="course-desc">
+          症状をひとつお申し出いただき、それに対するハーブティーのレシピと、メディカルハーブティーサンプルをお作り致します。
+        </p>
+        <div class="course-price">¥4,000<span>tax incl.</span></div>
       </div>
-      <div class="strength-item">
-        <div class="strength-key">信頼性</div>
-        <div class="strength-val">品質を追求した、トレーサビリティの確かなオーガニック素材の知見。</div>
+
+      <div class="course-card">
+        <div class="course-label">Course II</div>
+        <p class="course-desc">
+          複数の症状をじっくりとお伺いし、生活面・体調面・精神面など様々な角度から適応ハーブを選び、効果的なブレンドを作成致します。<br>
+          メディカルハーブティーサンプル（30g）と、ご自身で後日ブレンドしていただくためのレシピをお作り致します。<br><br>
+          <em>1ヶ月間LINEによるハーブ使用法サポート付き</em>
+        </p>
+        <div class="course-price">¥8,000<span>tax incl.</span></div>
       </div>
-      <div class="strength-item">
-        <div class="strength-key">柔軟性</div>
-        <div class="strength-val">単独活動だからこそ可能な、きめ細やかで迅速なコミュニケーションと対応。</div>
+
+      <div class="course-card">
+        <div class="course-label">Course III</div>
+        <p class="course-desc">
+          Course IIのサポート延長プラン（1ヶ月）。<br>
+          ハーブティーサンプル（30g）含む。<br>
+          Course IIでお伺いした内容に限ります。
+        </p>
+        <div class="course-price">¥3,500<span>tax incl.</span></div>
       </div>
+
+    </div>
+  </div>
+
+  <!-- ── Animal Companion Consultation ── -->
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-title-wrap">
+      <div class="section-en">Animal Companion Consultation</div>
+      <div class="section-ja">愛犬のためのハーブ相談</div>
+    </div>
+    <div class="section-arrow">▽</div>
+  </div>
+  <div class="section-detail">
+    <div class="section-inner">
+
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>相談内容</th>
+            <th>料金</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>お悩み 1つ / 1頭</td>
+            <td class="price">¥1,500</td>
+          </tr>
+          <tr>
+            <td>お悩み 2つ / 1頭</td>
+            <td class="price">¥3,000</td>
+          </tr>
+          <tr>
+            <td>お悩み 3つ / 1頭<br><small style="opacity:0.6">全身のご相談はこちら</small></td>
+            <td class="price">¥4,500</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="course-card">
+        <div class="course-label">Herb Fee</div>
+        <p class="course-desc">
+          ハーブ料金は体重や処方ハーブにより変動します。<br>
+          10g〜60g：¥2,000〜（配合ハーブにより変動）
+        </p>
+      </div>
+
+      <p class="notice">
+        近畿農政局 愛玩動物飼料製造販売業者登録 届出済み
+      </p>
+
     </div>
   </div>
 
   <!-- お問い合わせ -->
   <div class="contact-section">
     <p class="contact-label">Contact</p>
-    <p class="contact-desc">
-      ご相談・お問い合わせは、<br>
-      お気軽にお声がけください。
-    </p>
+    <p class="contact-desc">ご予約・お問い合わせはこちらから</p>
     <div class="contact-buttons">
       <a class="btn" href="https://lin.ee/up53x0z" target="_blank" rel="noopener">
-        Line でお問い合わせ
+        <span class="btn-icon">✉</span>Line でお問い合わせ
       </a>
       <a class="btn" href="mailto:herbalapothecarygarden@gmail.com">
-        Mail でお問い合わせ
+        <span class="btn-icon">✉</span>Mail でお問い合わせ
       </a>
       <a class="btn" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">
-        Instagram でお問い合わせ
+        <span class="btn-icon">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>Instagram でお問い合わせ
       </a>
     </div>
   </div>
 
-  <!-- 導線 -->
-  <div class="explore">
-    <p class="explore-note">植物の実践について</p>
-    <a class="explore-link" href="consultations.html">Explore Consultations</a>
+  <!-- ── 導線 ── -->
+  <div style="
+    text-align:center;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(184,151,90,0.12);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  ">
+    <p style="
+      font-family:'EB Garamond',serif;
+      font-size:0.85rem;
+      font-style:italic;
+      color:rgba(244,240,232,0.4);
+      letter-spacing:0.05em;
+      margin-bottom:1.8rem;
+    ">植物についてもっと知りたい方へ</p>
+    <a href="botanical-library.html" style="
+      display:inline-block;
+      text-decoration:none;
+      font-family:'Cinzel',serif;
+      font-size:0.6rem;
+      letter-spacing:0.4em;
+      color:rgba(184,151,90,0.7);
+      text-transform:uppercase;
+      padding-bottom:0.4rem;
+      border-bottom:1px solid rgba(184,151,90,0.3);
+      transition:color 0.3s, border-color 0.3s;
+    "
+    onmouseover="this.style.color='#b8975a';this.style.borderColor='#b8975a'"
+    onmouseout="this.style.color='rgba(184,151,90,0.7)';this.style.borderColor='rgba(184,151,90,0.3)'"
+    >Explore Botanical Library</a>
   </div>
 
 </main>
@@ -560,7 +605,7 @@
   <a class="footer-ig" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">
     <span class="footer-ig-text">庭の日々は、Instagramで。</span>
     <span class="footer-ig-handle">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:0.4em">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5">
         <rect x="2" y="2" width="20" height="20" rx="5"/>
         <circle cx="12" cy="12" r="4"/>
         <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
@@ -571,6 +616,25 @@
   <div class="footer-copy">© 2025 Herbal Apothecary Garden · All rights reserved</div>
 </footer>
 
+<script>
+  function toggle(header) {
+    const detail = header.nextElementSibling;
+    if (!detail || !detail.classList.contains('section-detail')) return;
+
+    const isOpen = detail.classList.contains('open');
+
+    // 他を全部閉じる
+    document.querySelectorAll('.section-detail.open').forEach(d => {
+      d.classList.remove('open');
+      d.previousElementSibling.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      detail.classList.add('open');
+      header.classList.add('open');
+    }
+  }
+</script>
 
 <script>
   const dot = document.getElementById('dot');
