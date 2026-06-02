@@ -17,10 +17,23 @@ html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--ink); font-family: 'EB Garamond','Noto Serif JP',serif; overflow-x: hidden; cursor: none; }
 .dot { width:6px;height:6px;background:var(--sage);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%); }
 .ring { width:32px;height:32px;border:1px solid rgba(122,140,106,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.18s ease,width 0.3s,height 0.3s; }
-nav { position:fixed;top:0;left:0;right:0;z-index:200;padding:28px 64px;display:flex;align-items:center;justify-content:space-between; }
-.nav-home { font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.3em;color:var(--ink-mid);text-decoration:none;transition:color 0.3s; }
-.nav-home:hover { color:var(--sage); }
-.nav-page { font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.3em;color:var(--ink-light); }
+.nav-wrap { position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.6rem;background:linear-gradient(to bottom,rgba(244,239,230,0.96),transparent); }
+.nav-logo { font-family:'Cinzel',serif;font-size:0.58rem;font-weight:300;letter-spacing:0.28em;color:rgba(90,82,72,0.7);text-decoration:none;text-transform:uppercase;transition:color 0.3s; }
+.nav-logo:hover { color:var(--sage); }
+.nav-toggle { width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:4px;z-index:201; }
+.nav-toggle span { display:block;width:22px;height:1px;background:rgba(30,27,23,0.5);transition:transform 0.4s ease,opacity 0.3s ease,width 0.3s ease;transform-origin:center; }
+.nav-toggle.open span:nth-child(1) { transform:translateY(6px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity:0;width:0; }
+.nav-toggle.open span:nth-child(3) { transform:translateY(-6px) rotate(-45deg); }
+.nav-overlay { position:fixed;inset:0;z-index:199;background:rgba(14,13,11,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease; }
+.nav-overlay.open { opacity:1;pointer-events:all; }
+.nav-overlay-logo { font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.5em;color:rgba(184,151,90,0.4);text-transform:uppercase;margin-bottom:3rem; }
+.nav-item { display:block;text-decoration:none;font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.9rem);font-weight:300;letter-spacing:0.3em;color:rgba(244,240,232,0.5);text-transform:uppercase;padding:0.9rem 2rem;transition:color 0.3s;text-align:center; }
+.nav-item:hover { color:#b8944a; }
+.nav-item.active { color:rgba(244,240,232,0.9); }
+.nav-divider { width:40px;height:1px;background:rgba(184,151,90,0.15);margin:0.8rem 0; }
+.nav-overlay-ig { margin-top:3rem;font-family:'EB Garamond',serif;font-size:0.78rem;font-style:italic;color:rgba(244,240,232,0.25);text-decoration:none;transition:color 0.3s; }
+.nav-overlay-ig:hover { color:rgba(184,151,90,0.6); }
 .opening { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 40px 80px;text-align:center;position:relative; }
 .opening::before { content:'';position:fixed;inset:0;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none; }
 .opening-eyebrow { font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.5em;color:var(--sage);margin-bottom:80px;opacity:0;animation:fadeUp 1.2s ease 0.3s forwards; }
@@ -96,10 +109,27 @@ footer { border-top:1px solid rgba(122,140,106,0.15);padding:48px 64px;display:f
 <body>
 <div class="dot" id="dot"></div>
 <div class="ring" id="ring"></div>
-<nav>
-<a href="#" class="nav-home">← Herbal Apothecary Garden</a>
-<span class="nav-page">Philosophy</span>
-</nav>
+<div class="nav-wrap">
+  <a href="index.html" class="nav-logo">Herbal Apothecary Garden</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="nav-overlay" id="nav-overlay">
+  <p class="nav-overlay-logo">Herbal Apothecary Garden</p>
+  <a class="nav-item active" href="philosophy.html">Philosophy</a>
+  <a class="nav-item" href="the-herbalist.html">The Herbalist</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="botanical-library.html">Botanical Library</a>
+  <a class="nav-item" href="botanical-advisory.html">Botanical Advisory</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="consultations.html">Consultations</a>
+  <a class="nav-item" href="herbal-study.html">Herbal Study</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="collection.html">Collection</a>
+  <a class="nav-item" href="contact.html">Contact</a>
+  <a class="nav-overlay-ig" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">@herbal_apothecary_garden</a>
+</div>
 <section class="opening">
 <p class="opening-eyebrow">Herbal Apothecary Garden · Philosophy</p>
 <h1 class="opening-headline">
