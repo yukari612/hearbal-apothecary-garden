@@ -19,6 +19,7 @@
       font-family: 'EB Garamond', serif;
       min-height: 100vh;
       overflow-x: hidden;
+      cursor: none;
     }
 
     body::before {
@@ -31,36 +32,50 @@
       z-index: 0;
     }
 
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 2rem;
-      background: linear-gradient(to bottom, rgba(14,13,11,0.95), transparent);
+    /* ── カーソル ── */
+    .dot { width:6px;height:6px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:202;transform:translate(-50%,-50%); }
+    .ring { width:32px;height:32px;border:1px solid rgba(184,151,90,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:202;transform:translate(-50%,-50%);transition:transform 0.18s ease,width 0.3s,height 0.3s; }
+
+    /* ── ナビ ── */
+    .nav-wrap { position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.6rem;background:linear-gradient(to bottom,rgba(14,13,11,0.96),transparent); }
+    .nav-logo { font-family:'Cinzel',serif;font-size:0.58rem;font-weight:300;letter-spacing:0.28em;color:rgba(244,240,232,0.5);text-decoration:none;text-transform:uppercase;transition:color 0.3s; }
+    .nav-logo:hover { color:var(--gold); }
+    .nav-toggle { width:36px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:none;background:none;border:none;padding:4px;z-index:201; }
+    .nav-toggle span { display:block;width:22px;height:1px;background:rgba(244,240,232,0.6);transition:transform 0.4s ease,opacity 0.3s ease,width 0.3s ease;transform-origin:center; }
+    .nav-toggle.open span:nth-child(1) { transform:translateY(6px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity:0;width:0; }
+    .nav-toggle.open span:nth-child(3) { transform:translateY(-6px) rotate(-45deg); }
+    .nav-overlay { position:fixed;inset:0;z-index:199;background:rgba(14,13,11,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease;cursor:none; }
+    .nav-overlay.open { opacity:1;pointer-events:all; }
+    .nav-overlay-logo { font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.5em;color:rgba(184,151,90,0.4);text-transform:uppercase;margin-bottom:3rem; }
+    .nav-item { display:block;text-decoration:none;font-family:'Cinzel',serif;font-size:clamp(0.75rem,2.5vw,0.9rem);font-weight:300;letter-spacing:0.3em;color:rgba(244,240,232,0.5);text-transform:uppercase;padding:0.9rem 2rem;transition:color 0.3s;text-align:center;cursor:none; }
+    .nav-item:hover { color:var(--gold); }
+    .nav-item.active { color:rgba(244,240,232,0.9); }
+    .nav-divider { width:40px;height:1px;background:rgba(184,151,90,0.15);margin:0.8rem 0; }
+    .nav-overlay-ig { margin-top:3rem;font-family:'EB Garamond',serif;font-size:0.78rem;font-style:italic;color:rgba(244,240,232,0.25);text-decoration:none;transition:color 0.3s;cursor:none; }
+    .nav-overlay-ig:hover { color:rgba(184,151,90,0.6); }
+
+    /* ── ヘッダー画像 ── */
+    .hero-img {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      overflow: hidden;
+      z-index: 1;
     }
 
-    .nav-home {
-      font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      color: rgba(244,240,232,0.5);
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.4s;
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(20%) sepia(10%);
     }
-    .nav-home:hover { color: var(--gold); }
 
-    .nav-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      font-weight: 300;
-      letter-spacing: 0.4em;
-      color: rgba(244,240,232,0.35);
-      text-transform: uppercase;
+    .hero-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(14,13,11,0.3) 0%, rgba(14,13,11,0.7) 100%);
     }
 
     /* ── ヘッダー ── */
@@ -68,7 +83,7 @@
       position: relative;
       z-index: 1;
       text-align: center;
-      padding: 10rem 2rem 5rem;
+      padding: 4rem 2rem 5rem;
     }
 
     .header-label {
@@ -142,6 +157,21 @@
       margin-bottom: 1.8rem;
     }
 
+    /* ── セクション内の写真 ── */
+    .section-img {
+      width: 100%;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .section-img img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      filter: grayscale(15%) sepia(10%);
+      display: block;
+    }
+
     /* ── A Note from Yukari ── */
     .note-text {
       font-family: 'EB Garamond', serif;
@@ -155,9 +185,7 @@
       font-style: italic;
     }
 
-    .note-text p + p {
-      margin-top: 1.6rem;
-    }
+    .note-text p + p { margin-top: 1.6rem; }
 
     .note-sign {
       margin-top: 2.4rem;
@@ -168,11 +196,7 @@
     }
 
     /* ── Path of Study ── */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
 
     .timeline-item {
       display: grid;
@@ -200,8 +224,6 @@
       border-radius: 50%;
       background: #0e0d0b;
     }
-
-    .timeline-body {}
 
     .timeline-year {
       font-family: 'Cinzel', serif;
@@ -255,33 +277,67 @@
 
     .practice-text p + p { margin-top: 1.6rem; }
 
-    /* ── 犬たちのコーナー ── */
-    .dogs {
+    /* ── 犬たちの写真グリッド ── */
+    .dog-grid {
       margin-top: 2.4rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
     }
 
     .dog-card {
-      padding: 1.4rem 1.6rem;
-      border: 1px solid rgba(184,151,90,0.12);
-      background: rgba(184,151,90,0.02);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dog-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      filter: grayscale(20%) sepia(15%);
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .dog-card:hover img { transform: scale(1.03); }
+
+    .dog-card-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(to top, rgba(14,13,11,0.9), transparent);
     }
 
     .dog-name {
       font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       letter-spacing: 0.25em;
       color: var(--gold);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .dog-text {
       font-family: 'EB Garamond', serif;
-      font-size: 0.9rem;
-      line-height: 1.9;
-      color: rgba(244,240,232,0.6);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: rgba(244,240,232,0.7);
+    }
+
+    /* ── 実践写真グリッド ── */
+    .practice-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+    }
+
+    .practice-grid img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      filter: grayscale(15%) sepia(10%);
+      display: block;
     }
 
     /* ── 導線 ── */
@@ -374,10 +430,35 @@
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-home">← Herbal Apothecary Garden</a>
-  <span class="nav-title">The Herbalist</span>
-</nav>
+<div class="dot" id="dot"></div>
+<div class="ring" id="ring"></div>
+
+<div class="nav-wrap">
+  <a href="index.html" class="nav-logo">Herbal Apothecary Garden</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="nav-overlay" id="nav-overlay">
+  <p class="nav-overlay-logo">Herbal Apothecary Garden</p>
+  <a class="nav-item" href="philosophy.html">Philosophy</a>
+  <a class="nav-item active" href="the-herbalist.html">The Herbalist</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="botanical-library.html">Botanical Library</a>
+  <a class="nav-item" href="botanical-advisory.html">Botanical Advisory</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="consultations.html">Consultations</a>
+  <a class="nav-item" href="herbal-study.html">Herbal Study</a>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="collection.html">Collection</a>
+  <a class="nav-item" href="contact.html">Contact</a>
+  <a class="nav-overlay-ig" href="https://www.instagram.com/herbal_apothecary_garden" target="_blank" rel="noopener">@herbal_apothecary_garden</a>
+</div>
+
+<!-- ── ヘッダー画像 ── -->
+<div class="hero-img">
+  <img src="monastery.jpg.jpg" alt="Herbal Apothecary Garden">
+</div>
 
 <header>
   <p class="header-label">Herbal Apothecary Garden</p>
@@ -391,6 +472,9 @@
   <!-- ── A Note from Yukari ── -->
   <div class="section">
     <div class="section-tag">A Note from Yukari</div>
+    <div class="section-img">
+      <img src="IMG_2329.jpeg" alt="Study table">
+    </div>
     <div class="note-text">
       <p>
         植物との出会いは、ある朝のことでした。<br>
@@ -427,7 +511,6 @@
   <!-- ── Path of Study ── -->
   <div class="section">
     <div class="section-tag">Path of Study</div>
-
     <div class="timeline">
       <div class="timeline-item">
         <div class="timeline-line"></div>
@@ -461,7 +544,6 @@
         </div>
       </div>
     </div>
-
     <div class="credentials">
       <div class="credentials-label">Qualifications</div>
       <div class="credential-item">JAMHA認定　ハーバルセラピスト</div>
@@ -487,17 +569,30 @@
       </p>
     </div>
 
-    <div class="dogs">
+    <!-- 実践写真 -->
+    <div class="practice-grid">
+      <img src="IMG_2339.jpg" alt="Drying rosemary">
+      <img src="IMG_1974.jpeg" alt="Drying chamomile">
+    </div>
+
+    <!-- 犬たちの写真 -->
+    <div class="dog-grid">
       <div class="dog-card">
-        <div class="dog-name">Vivi · Border Collie</div>
-        <div class="dog-text">
-          保護犬。心臓病・慢性腎臓病・甲状腺癌を抱えながら、ハーブと食事による体質強化を続けた結果、2025年に甲状腺癌寛解、慢性腎臓病の数値も全て正常値へ。彼女が自ら選ぶのは、抗酸化力の高いハーブと快便に導くハーブ。
+        <img src="IMG_2327.jpeg" alt="Vivi · Border Collie">
+        <div class="dog-card-info">
+          <div class="dog-name">Vivi · Border Collie</div>
+          <div class="dog-text">
+            保護犬。心臓病・慢性腎臓病・甲状腺癌を抱えながら、ハーブと食事による体質強化を続けた結果、2025年に甲状腺癌寛解、慢性腎臓病の数値も全て正常値へ。
+          </div>
         </div>
       </div>
       <div class="dog-card">
-        <div class="dog-name">Noel · Borzoi</div>
-        <div class="dog-text">
-          保護犬。2024年、ノエルが自ら選んでいたハーブは気管支系・消化・免疫のもの。後の検査でアデノウイルスの抗体がほぼ無いことが判明——彼が選んでいたハーブは、その状態から身を守るためだったと考えられる。ワクチン接種後は、そのハーブを選ばなくなった。
+        <img src="IMG_2325.jpeg" alt="Noel · Borzoi">
+        <div class="dog-card-info">
+          <div class="dog-name">Noel · Borzoi</div>
+          <div class="dog-text">
+            保護犬。自ら選んでいたハーブは気管支系・消化・免疫のもの。後の検査でアデノウイルスの抗体がほぼ無いことが判明——植物の知恵がそこにあった。
+          </div>
         </div>
       </div>
     </div>
@@ -527,5 +622,20 @@
   <div class="footer-copy">© 2025 Herbal Apothecary Garden · All rights reserved</div>
 </footer>
 
+<script>
+  const dot = document.getElementById('dot');
+  const ring = document.getElementById('ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  const navToggle=document.getElementById('nav-toggle');
+  const navOverlay=document.getElementById('nav-overlay');
+  navToggle.addEventListener('click',()=>{
+    const isOpen=navOverlay.classList.contains('open');
+    navOverlay.classList.toggle('open');
+    navToggle.classList.toggle('open');
+    document.body.style.overflow=isOpen?'':'hidden';
+  });
+</script>
 </body>
 </html>
