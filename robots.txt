@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://herbal-apothecary-garden.com/sitemap.xml
