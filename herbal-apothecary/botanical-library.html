@@ -57,7 +57,6 @@ transition: color 0.4s;
 }
 .nav-home:hover { color: var(--gold); }
 
-/* ── ハンバーガーメニュー ── */
 .hamburger {
 display: none;
 flex-direction: column;
@@ -373,6 +372,21 @@ to { opacity: 1; transform: translateY(0); }
 </footer>
 
 <script>
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+hamburger.classList.toggle('active');
+mobileMenu.classList.toggle('active');
+});
+
+mobileMenu.querySelectorAll('a').forEach(link => {
+link.addEventListener('click', () => {
+hamburger.classList.remove('active');
+mobileMenu.classList.remove('active');
+});
+});
+
 const plants = [
 {
 en: "Lavender",
@@ -480,22 +494,6 @@ img: "../fennel.jpg",
 desc: "古代ローマの時代から消化を助けるハーブとして親しまれてきたフェンネル。甘い香りと爽やかな風味を持ち、腸の蠕動を促し、お腹の張りや不快感を和らげる。"
 },
 ];
-
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
-
-hamburger.addEventListener('click', () => {
-hamburger.classList.toggle('active');
-mobileMenu.classList.toggle('active');
-});
-
-// メニューリンククリックで閉じる
-mobileMenu.querySelectorAll('a').forEach(link => {
-link.addEventListener('click', () => {
-hamburger.classList.remove('active');
-mobileMenu.classList.remove('active');
-});
-});
 
 const grid = document.getElementById('grid');
 
