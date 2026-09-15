@@ -1,3 +1,8 @@
+
+Yukari <herbalapothecarygarden@gmail.com>
+10:52 (0 分前)
+To 自分
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -57,13 +62,55 @@ transition: color 0.4s;
 }
 .nav-home:hover { color: var(--gold); }
 
-.nav-title {
+/* ── ハンバーガーメニュー ── */
+.hamburger {
+display: none;
+flex-direction: column;
+cursor: pointer;
+gap: 5px;
+}
+.hamburger span {
+width: 24px;
+height: 2px;
+background: rgba(244,240,232,0.6);
+transition: all 0.3s;
+}
+.hamburger.active span:nth-child(1) {
+transform: rotate(45deg) translate(8px, 8px);
+}
+.hamburger.active span:nth-child(2) {
+opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.mobile-menu {
+display: none;
+position: fixed;
+top: 60px;
+left: 0;
+right: 0;
+background: linear-gradient(to bottom, rgba(14,13,11,0.98), rgba(14,13,11,0.95));
+z-index: 99;
+flex-direction: column;
+padding: 2rem 1.5rem;
+gap: 1.5rem;
+}
+.mobile-menu.active { display: flex; }
+.mobile-menu a {
 font-family: 'Cinzel', serif;
 font-size: 0.65rem;
-font-weight: 300;
-letter-spacing: 0.4em;
-color: rgba(244,240,232,0.35);
+letter-spacing: 0.3em;
+color: rgba(244,240,232,0.6);
+text-decoration: none;
 text-transform: uppercase;
+transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+
+@media (max-width: 768px) {
+.hamburger { display: flex; }
 }
 
 header {
@@ -297,8 +344,20 @@ to { opacity: 1; transform: translateY(0); }
 
 <nav>
 <a href="../index.html" class="nav-home">← Herbal Apothecary Garden</a>
-<span class="nav-title">My Garden · Botanical Record</span>
+<div class="hamburger" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
 </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+<a href="../philosophy.html">Philosophy</a>
+<a href="../herbal-apothecary/practice.html">Practice</a>
+<a href="../herbal-apothecary/botanical-library.html">Botanical Library</a>
+<a href="../herbal-apothecary/collection.html">Collection</a>
+<a href="../contact.html">Contact</a>
+</div>
 
 <header>
 <p class="header-label">Herbal Apothecary Garden</p>
@@ -426,6 +485,22 @@ img: "../fennel.jpg",
 desc: "古代ローマの時代から消化を助けるハーブとして親しまれてきたフェンネル。甘い香りと爽やかな風味を持ち、腸の蠕動を促し、お腹の張りや不快感を和らげる。"
 },
 ];
+
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+hamburger.classList.toggle('active');
+mobileMenu.classList.toggle('active');
+});
+
+// メニューリンククリックで閉じる
+mobileMenu.querySelectorAll('a').forEach(link => {
+link.addEventListener('click', () => {
+hamburger.classList.remove('active');
+mobileMenu.classList.remove('active');
+});
+});
 
 const grid = document.getElementById('grid');
 
